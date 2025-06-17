@@ -11,9 +11,9 @@
       padding-top: 150px;
       color: #ff0000;
     }
-    h1 {
-      font-size: 3em;
-      margin-bottom: 40px;
+    h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
     }
     button {
       font-size: 1.5em;
@@ -31,7 +31,7 @@
     .yes:hover {
       background-color: #ff4e75;
     }
-    .no  {
+    .no {
       background-color: #ff6f91;
       color: white;
     }
@@ -41,9 +41,46 @@
   </style>
 </head>
 <body>
- <h2>If you love me even 1%, i will make that 100% </h2>
-<h2>If you love me 0%, i cant make 100%</h2>
-  <button class="yes" onclick="window.location.href='yes2.html'">1%</button>
-  <button class="no" onclick="window.location.href='no2.html'">0%</button>
+  <h2>If you love me even 1%, I will make that 100%</h2>
+  <h2>If you love me 0%, I can’t make 100%</h2>
+
+  <button class="yes" onclick="submitResponse('1%')">1%</button>
+  <button class="no" onclick="submitResponse('0%')">0%</button>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDDKwORtOFhbwcBOYhNdcC3hdtqBj1Vk_I",
+  authDomain: "ayush-4d7e2.firebaseapp.com",
+  databaseURL: "https://ayush-4d7e2-default-rtdb.firebaseio.com",
+  projectId: "ayush-4d7e2",
+  storageBucket: "ayush-4d7e2.firebasestorage.app",
+  messagingSenderId: "704386566850",
+  appId: "1:704386566850:web:e683c41184769e2913095b",
+  measurementId: "G-SEJTV16J8S"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.submitResponse = function(response) {
+      const responsesRef = ref(db, 'responses');
+      push(responsesRef, {
+        answer: response,
+        timestamp: new Date().toISOString()
+      }).then(() => {
+        if (response === '1%') {
+          window.location.href = 'yes2.html';
+        } else {
+          window.location.href = 'no2.html';
+        }
+      });
+    }
+  </script>
 </body>
 </html>
